@@ -1,6 +1,7 @@
 package com.rh.ui.view
 
-
+import com.formdev.flatlaf.FlatDarculaLaf
+import com.formdev.flatlaf.FlatLightLaf
 import com.rh.ui.entiry.Tweet
 import groovy.swing.SwingBuilder
 
@@ -18,6 +19,11 @@ class Gwitter6 {
     }
 
     void show(){
+        // 白色主题
+        FlatLightLaf.install();
+        // 暗黑主题
+//        FlatDarculaLaf.install();
+
         def swingBuilder = new SwingBuilder()
 
         def customMenuBar = {

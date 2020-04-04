@@ -12,6 +12,7 @@
 	<artifactId>my_program</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>my_program</name>
+	<packaging>jar</packaging>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -25,6 +26,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>0.28</version>
+		</dependency>
 		<!-- powermock -->
 		<dependency>
 			<groupId>org.powermock</groupId>
