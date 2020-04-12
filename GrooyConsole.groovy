@@ -1,7 +1,14 @@
-import com.rh.ui.MainDemo
+class User {
+    Integer age = 1
+}
 
-def demo = new MainDemo(
-        loal: (1)
-)
-println demo.x
-println demo.y
+def user1 = {
+    Integer age = 1;
+}
+
+def user2 = {
+    println age
+}
+
+user2.delegate = new User()
+user2()
