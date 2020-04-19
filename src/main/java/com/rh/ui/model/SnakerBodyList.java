@@ -1,7 +1,6 @@
 package com.rh.ui.model;
 
 import com.rh.ui.exception.SnakerException;
-import lombok.Getter;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.rh.ui.model.SnakerBody.Direction.*;
+import static com.rh.ui.model.SnakerBody.Direction.DOWN;
+import static com.rh.ui.model.SnakerBody.Direction.LEFT;
+import static com.rh.ui.model.SnakerBody.Direction.RIGHT;
+import static com.rh.ui.model.SnakerBody.Direction.UP;
 
 public class SnakerBodyList {
 

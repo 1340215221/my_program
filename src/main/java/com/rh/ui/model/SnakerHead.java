@@ -1,6 +1,7 @@
 package com.rh.ui.model;
 
 import com.rh.ui.constant.ImageResources;
+import com.rh.ui.model.bound.BoundFactory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,18 +34,8 @@ public class SnakerHead extends SnakerBody {
      * 超过边框范围, 从另一头开始
      */
     private void transboundaryReset() {
-        if (getX() < 0) {
-            setX(900);
-        }
-        if (getX() > 900) {
-            setX(0);
-        }
-        if (getY() < 0) {
-            setY(600);
-        }
-        if (getY() > 600) {
-            setY(0);
-        }
+        setX(BoundFactory.checkSnakerMoveBoundX(getX()));
+        setY(BoundFactory.checkSnakerMoveBoundY(getY()));
     }
 
 }

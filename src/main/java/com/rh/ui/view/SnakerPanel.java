@@ -1,6 +1,5 @@
 package com.rh.ui.view;
 
-import com.rh.ui.model.Food;
 import com.rh.ui.model.Snaker;
 
 import javax.swing.*;
@@ -14,6 +13,10 @@ import static com.rh.ui.model.SnakerBody.Direction.DOWN;
 import static com.rh.ui.model.SnakerBody.Direction.LEFT;
 import static com.rh.ui.model.SnakerBody.Direction.RIGHT;
 import static com.rh.ui.model.SnakerBody.Direction.UP;
+import static com.rh.ui.model.bound.BoundFactory.getPaintH;
+import static com.rh.ui.model.bound.BoundFactory.getPaintW;
+import static com.rh.ui.model.bound.BoundFactory.getPaintX;
+import static com.rh.ui.model.bound.BoundFactory.getPaintY;
 
 /**
  * 绘制贪吃蛇
@@ -21,11 +24,11 @@ import static com.rh.ui.model.SnakerBody.Direction.UP;
 public class SnakerPanel extends JPanel implements KeyListener, ActionListener {
 
     private Snaker snaker = new Snaker();
-    private Food food = new Food();
+//    private Food food = new Food(); // todo
 
     {
         snaker.init();
-        food.randomGeneration();
+//        food.randomGeneration(); // todo
         setFocusable(true); // 获取焦点事件
         addKeyListener(this); // 键盘监听, 开启键盘监听必须设置 setFocusable(true)
     }
@@ -40,10 +43,10 @@ public class SnakerPanel extends JPanel implements KeyListener, ActionListener {
         super.paintComponent(g); // 清屏
 
         // 绘制静态面板
-        g.fillRect(10, 50, 900, 410);
+        g.fillRect(getPaintX(), getPaintY(), getPaintW(), getPaintH());
 
         snaker.paint(this, g);
-        food.paint(this, g);
+//        food.paint(this, g); //todo
 
         if (!snaker.getGameState()) {
             g.setColor(Color.red);
@@ -90,11 +93,10 @@ public class SnakerPanel extends JPanel implements KeyListener, ActionListener {
     }
 
     private void refreshSnaker() {
-        if (!snaker.getGameState()) {
-            return;
+        if (snaker.getGameState()) {
+            snaker.moveForward();
         }
 
-        snaker.moveForward();
         this.repaint();
     }
 }
