@@ -15,7 +15,11 @@ public class SnakerHead extends SnakerBody {
     /**
      * 方向
      */
-    private String direction = DEF_DIRECTION;
+    private Direction direction = DEF_DIRECTION;
+    /**
+     * 下一个移动方向
+     */
+    private Direction nextDirection;
 
     /**
      * 初始化
@@ -38,4 +42,34 @@ public class SnakerHead extends SnakerBody {
         setY(BoundFactory.checkSnakerMoveBoundY(getY()));
     }
 
+    /**
+     * 判断是否为反向移动
+     */
+    public boolean checkIsReverseMove() {
+        if (this.getNextDirection() == null) {
+            return true;
+        }
+
+        return this.getDirection().checkIsOpposite(this.getNextDirection());
+    }
+
+    /**
+     * 设置初始位置
+     */
+    @Override
+    public void setInitPlace() {
+        this.setX(Snaker.SNAKER_BODY_INIT_PLACE_X);
+        this.setY(Snaker.SNAKER_BODY_INIT_PLACE_Y);
+    }
+
+    /**
+     * 改变方向
+     */
+    public void changeDirection() {
+        if (this.getNextDirection() == null) {
+            return;
+        }
+
+        direction = this.getNextDirection();
+    }
 }

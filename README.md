@@ -1,2 +1,2 @@
-# my_program
-用swing实现的简化操作UI界面
+# snaker-game
+贪吃蛇游戏

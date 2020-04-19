@@ -2,7 +2,6 @@ package com.rh.ui.model;
 
 import com.rh.ui.exception.SnakerException;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,14 +73,39 @@ public class Snaker {
         }
 
         body.moveForward();
-        return body.getNextBody();
+        return body.getPrevBody();
     };
 
     /**
      * 改变方向
      */
-    public void changeDirection(String direction) {
-        bodyList.changeDirection(direction);
+    public void changeDirection() {
+        bodyList.changeDirection();
     }
 
+    public void setNextDirection(Direction direction) {
+        bodyList.setNextDirection(direction);
+    }
+
+    /**
+     * 蛇是否吃到食物了
+     */
+    public boolean checkIsEatFood(Food food) {
+        SnakerHead snakerHead = bodyList.getSnakerHead();
+        if (snakerHead == null) {
+            return false;
+        }
+
+        int xDif = food.getCenterOfCircleX() - snakerHead.getX();
+        int yDif = food.getCenterOfCircleY() - snakerHead.getY();
+        if (xDif >= 0 && xDif <= 15 && yDif >= 0 && yDif <= 15) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void increase() {
+        bodyList.add(new SnakerBody());
+    }
 }

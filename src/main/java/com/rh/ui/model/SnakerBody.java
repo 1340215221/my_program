@@ -3,8 +3,8 @@ package com.rh.ui.model;
 import com.rh.ui.constant.ImageResources;
 import com.rh.ui.exception.SnakerException;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.swing.*;
 
@@ -15,9 +15,11 @@ import javax.swing.*;
 @NoArgsConstructor
 public class SnakerBody {
 
-    public static final String DEF_DIRECTION = Direction.RIGHT.getValue();
-    public static final Integer SNAKER_BODY_W = 30;
-    public static final Integer SNAKER_BODY_H = 30;
+    public static final Direction DEF_DIRECTION = Direction.RIGHT;
+    /**
+     * 默认每块的边长
+     */
+    public static final Integer BODY_LENG = 30;
 
     /**
      * 大小
@@ -30,7 +32,7 @@ public class SnakerBody {
     /**
      * 前一个
      */
-    private SnakerBody nextBody;
+    private SnakerBody prevBody;
     /**
      * 后一个
      */
@@ -42,41 +44,41 @@ public class SnakerBody {
     /**
      * 获得方向
      */
-    public String getDirection() {
-        SnakerBody nextBody = this.getNextBody();
-        if (nextBody == null) {
+    public Direction getDirection() {
+        SnakerBody prevBody = this.getPrevBody();
+        if (prevBody == null) {
             return DEF_DIRECTION;
         }
 
-        if (nextBody.getX() - getX() > 0) {
-            return Direction.RIGHT.getValue();
+        if (prevBody.getX() - getX() > 0) {
+            return Direction.RIGHT;
         }
 
-        if (nextBody.getX() - getX() < 0) {
-            return Direction.LEFT.getValue();
+        if (prevBody.getX() - getX() < 0) {
+            return Direction.LEFT;
         }
 
-        if (nextBody.getY() - getY() > 0) {
-            return Direction.DOWN.getValue();
+        if (prevBody.getY() - getY() > 0) {
+            return Direction.DOWN;
         }
 
-        if (nextBody.getY() - getY() < 0) {
-            return Direction.UP.getValue();
+        if (prevBody.getY() - getY() < 0) {
+            return Direction.UP;
         }
 
         throw new SnakerException(String.format("方向错误, nextBody.x=%s, nextBody.y=%s, x=%s, y=%s",
-                nextBody.getX(), nextBody.getY(), getX(), getY()));
+                prevBody.getX(), prevBody.getY(), getX(), getY()));
     }
 
     /**
      * 向前移动
      */
     public void moveForward() {
-        if (nextBody == null) {
+        if (prevBody == null) {
             throw new SnakerException("移动失败, 没有找到前一个节点");
         }
-        setX(nextBody.getX());
-        setY(nextBody.getY());
+        setX(prevBody.getX());
+        setY(prevBody.getY());
     }
 
     /**
@@ -84,46 +86,28 @@ public class SnakerBody {
      * 通过方向
      */
     public void moveForwardByDirection() {
-        String direction = getDirection();
-        if (Direction.DOWN.equals(direction)) {
-            y = y + SNAKER_BODY_H;
-            return;
-        }
-        if (Direction.UP.equals(direction)) {
-            y = y - SNAKER_BODY_H;
-            return;
-        }
-        if (Direction.LEFT.equals(direction)) {
-            x = x - SNAKER_BODY_H;
-            return;
-        }
-        if (Direction.RIGHT.equals(direction)) {
-            x = x + SNAKER_BODY_H;
-            return;
+        Direction direction = getDirection();
+        if (direction == null) {
+            throw new SnakerException("通过方向移动失败, 没有匹配的方向");
         }
 
-        throw new SnakerException("通过方向移动失败, 没有匹配的方向");
+        direction.moveForward(this);
     }
 
     /**
-     * 方向
+     * 设置初始位置<br>
+     * 通过前一个设置
      */
-    @Getter
-    public enum Direction {
-        DOWN("down"),
-        UP("up"),
-        LEFT("left"),
-        RIGHT("right"),
-        ;
-
-        String value;
-
-        Direction(String value) {
-            this.value = value;
+    public void setInitPlace() {
+        if (prevBody == null) {
+            throw new SnakerException("增加尾巴时, 没有找到位置");
         }
-        public boolean equals(String value) {
-            return this.value.equals(value);
+
+        Direction direction = prevBody.getDirection();
+        if (direction == null) {
+            throw new SnakerException("增加尾巴时, 没有找到位置");
         }
+
+        direction.setNextBodyPlace(this, prevBody);
     }
-
 }
