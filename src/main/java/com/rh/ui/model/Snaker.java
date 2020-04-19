@@ -72,6 +72,10 @@ public class Snaker {
             return null;
         }
 
+        if (body instanceof SnakerHead) {
+            // todo 移动时需要更新 placeMap, 并判断是否吃到自己
+        }
+
         body.moveForward();
         return body.getPrevBody();
     };
@@ -105,7 +109,9 @@ public class Snaker {
         return false;
     }
 
-    public void increase() {
-        bodyList.add(new SnakerBody());
+    public void increase(boolean isEatFood) {
+        if (isEatFood) {
+            bodyList.add(new SnakerBody());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.rh.ui.model;
 
+import com.rh.ui.util.IInit;
 import com.rh.ui.view.SnakerPanel;
 import lombok.Data;
 
@@ -10,15 +11,26 @@ import java.awt.*;
  * 食物
  */
 @Data
-public class Food {
+public class Food implements IInit {
 
     private Integer x;
     private Integer y;
 
     /**
+     * 初始化一个食物
+     */
+    public void init() {
+        this.randomGeneration(true, true);
+    }
+
+    /**
      * 随机生成一个位置
      */
-    public void randomGeneration() {
+    public void randomGeneration(boolean gameState, boolean isEatFood) {
+        if (!gameState || !isEatFood) {
+            return;
+        }
+
         // todo
         x = 160;
         y = 310;

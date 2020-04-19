@@ -2,14 +2,19 @@ package com.rh.ui.model;
 
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class SnakerBodyList {
 
-    private final List<SnakerBody> bodyList = new ArrayList<>(3);
+    private final List<SnakerBody> bodyList = new ArrayList<>(10);
+    private final Map<String, Integer> placeMap = new HashMap();
     private SnakerBody endBody;
 
     public void add(SnakerBody body) {
@@ -21,6 +26,8 @@ public class SnakerBodyList {
         body.setInitPlace();
 
         bodyList.add(body);
+        Integer value = placeMap.put(body.getX() + "_" + body.getY(), bodyList.size() - 1);
+        this.checkIsFormingARing(value);
         this.endBody = body;
     }
 
@@ -74,6 +81,29 @@ public class SnakerBodyList {
         SnakerHead snakerHead = this.getSnakerHead();
         if (snakerHead != null && direction != null) {
             snakerHead.setNextDirection(direction);
+        }
+    }
+
+    /**
+     * 是否变成了一个环<br>
+     * 不能吃到自己
+     */
+    public void checkIsFormingARing(Integer value) {
+        if (value == null) {
+            System.out.println("value is null");
+            return;
+        }
+
+        for (int i = bodyList.size() - 1; i < value; i--) {
+            SnakerBody snakerBody = bodyList.get(i);
+            if (snakerBody == null) {
+                System.out.println("body is null");
+                break;
+            }
+
+            SnakerBody remove = bodyList.remove(i);
+            System.out.println("remove body" + remove);
+            placeMap.remove(snakerBody.getX() + "_" + snakerBody.getY());
         }
     }
 }

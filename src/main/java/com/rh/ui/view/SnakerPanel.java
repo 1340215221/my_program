@@ -29,7 +29,7 @@ public class SnakerPanel extends JPanel implements KeyListener, ActionListener {
 
     {
         snaker.init();
-        food.randomGeneration();
+        food.init();
         setFocusable(true); // 获取焦点事件
         addKeyListener(this); // 键盘监听, 开启键盘监听必须设置 setFocusable(true)
     }
@@ -101,10 +101,9 @@ public class SnakerPanel extends JPanel implements KeyListener, ActionListener {
         }
 
         // 蛇是否吃到食物了
-        if (snaker.checkIsEatFood(food)) {
-            food.randomGeneration();
-            snaker.increase();
-        }
+        boolean isEatFood = snaker.checkIsEatFood(food);
+        food.randomGeneration(snaker.getGameState(), isEatFood);
+        snaker.increase(isEatFood);
 
         this.repaint();
     }

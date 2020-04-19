@@ -32,6 +32,7 @@ public class SnakerHead extends SnakerBody {
     public void moveForward() {
         super.moveForwardByDirection();
         transboundaryReset();
+        // todo 蛇头如果碰到了原本的身体会将其截断
     }
 
     /**
