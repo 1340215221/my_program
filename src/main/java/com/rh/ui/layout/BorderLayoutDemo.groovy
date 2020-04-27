@@ -1,5 +1,9 @@
 package com.rh.ui.layout
 
+import groovy.swing.SwingBuilder
+import groovy.swing.factory.SwingBorderFactory
+
+import javax.swing.JFrame
 import java.awt.BorderLayout
 import java.awt.Button
 import java.awt.Frame
@@ -10,7 +14,44 @@ import java.awt.Frame
  */
 class BorderLayoutDemo {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
+        groovy()
+//        java()
+    }
+
+    static void groovy() {
+        def swingBuilder = new SwingBuilder()
+
+        def button1 = {
+            swingBuilder.button(label: 'center')
+        }
+
+        def button2 = {
+            swingBuilder.button(label: 'each')
+        }
+
+        def layout = {
+            swingBuilder.borderLayout(center: button1(),
+                    east: button2()
+            )
+        }
+
+        def panel = {
+            swingBuilder.panel(){
+                layout()
+            }
+        }
+
+        def frame = swingBuilder.frame(title: 'test',
+                bounds: [0, 0, 500, 500]
+        ) {
+            panel()
+        }
+
+        frame.visible = true;
+    }
+
+    private static void java() {
         def east = new Button('east')
         def west = new Button('west')
         def south = new Button('south')
@@ -29,5 +70,4 @@ class BorderLayoutDemo {
 
         frame.setVisible(true)
     }
-
 }

@@ -1,5 +1,9 @@
 package com.rh.ui.layout
 
+import com.rh.ui.controls.JIcon
+import groovy.swing.SwingBuilder
+
+import javax.swing.WindowConstants
 import java.awt.Button
 import java.awt.FlowLayout
 import java.awt.Frame
@@ -10,7 +14,38 @@ import java.awt.Frame
 class FlowLayoutDemo {
 
     static void main(String[] args) {
-        java()
+        groovy()
+//        java()
+    }
+
+    static void groovy() {
+        def builder = new SwingBuilder()
+
+        def botten1 = {
+            builder.button(label: '注册')
+        }
+
+//        def layout = new FlowLayout(FlowLayout.RIGHT)
+
+        def layout = {
+            builder.flowLayout(newAlign: FlowLayout.RIGHT)
+        }
+
+        def panel = {
+            builder.panel(){
+                layout()
+                botten1()
+            }
+        }
+
+        def frame = builder.frame(title: 'test',
+                defaultCloseOperation: WindowConstants.EXIT_ON_CLOSE,
+                bounds: [0, 0, 500, 500],
+        ){
+            panel()
+        }
+
+        frame.visible = true
     }
 
     private static void java() {
@@ -30,5 +65,4 @@ class FlowLayoutDemo {
 
         frame.setVisible(true)
     }
-
 }
